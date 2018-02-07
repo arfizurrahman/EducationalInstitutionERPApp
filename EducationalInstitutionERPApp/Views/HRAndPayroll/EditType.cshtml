@@ -1,0 +1,67 @@
+﻿@model EducationalInstitutionERPApp.Models.HRAndPayrollModels.EmployeeType
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>EmployeeType</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmpType, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EmpType)
+                @Html.ValidationMessageFor(model => model.EmpType)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-default" onclick="UpdateType()"  />
+            </div>
+        </div>
+    </div>
+}
+<div class="form-group">
+    <label class="col-md-4 control-label"></label>
+    <div class="col-md-4 ">
+        @if (ViewBag.Message != null)
+        {
+            if (ViewBag.Message == "Updated Successfully")
+            {
+                <h4><span class="label label-success">@ViewBag.Message</span></h4>
+            }
+            else
+            {
+                <h4><span class="label label-danger">@ViewBag.Message</span></h4>
+            }
+
+        }
+
+    </div>
+</div>
+
+
+
+<div>
+    @Html.ActionLink("Close", "AddEmployeeType")
+</div>
+
+<script type="text/javascript">
+    function UpdateType() {
+        var etype = $("#EmpType").val();
+        
+
+        var type = {
+            "EmpType": etype
+        };
+
+        $.post('/HRAndPayroll/EditType', type,
+        function (data) { if (data == 0) { location = location.href } }, 'json');
+        
+
+    }
+</script>

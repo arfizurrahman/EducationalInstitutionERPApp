@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <!-- Bootstrap Core CSS -->
+    <link href="~/SD/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <!-- MetisMenu CSS -->
+    <link href="~/SD/vendor/metisMenu/metisMenu.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+
+    <link href="~/SD/dist/css/sb-admin-2.css" rel="stylesheet" />
+    <!-- Morris Charts CSS -->
+    <link href="~/SD/vendor/morrisjs/morris.css" rel="stylesheet" />
+    <!-- Custom Fonts -->
+    <link href="~/SD/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    @*@Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")*@
+    @RenderSection("style", required: false)
+
+
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">AAN Institute</a>
+            </div>
+            <!-- /.navbar-header -->
+            <ul class="nav navbar-top-links navbar-right">
+                
+                
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="@Url.Action("Login", "Login")"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                           
+                            
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+
+                        <li>
+                            <a href="@Url.Action("Index", "Home")"><i class="fa fa-home fa-fw"></i> Home</a>
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-users "></i> Academic<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="@Url.Action("SaveDepartment", "Academic")">Save Department</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("SaveCourse", "Academic")">Save Course</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("AssignCourseToTeacher", "Academic")">Assign Course</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ManageAssignedCourses", "Academic")">Manage Assigned Course</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-user fa-fw"></i> Student<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="@Url.Action("RegisterStudent", "Student")">Register Student</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("EnrollInACourse", "Student")">Enroll in a course</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href=""><i class="fa fa-calendar-o"></i> TimeTable<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="@Url.Action("AddClassRoom", "TimeTable")">Add Class Room</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("CreateTimeTable", "TimeTable")">Create Time Table</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ViewTimeTable", "TimeTable")">View TimeTable</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("DownloadTimeTable", "TimeTable")">Download TimeTable</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="glyphicon glyphicon-eye-open"></i> HR/Payroll<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="">Employee Management<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-thired-level">
+                                        <li>
+                                            <a href="@Url.Action("AddEmployeeType", "HRAndPayroll")">Add Employee Type</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("AddDesignation", "HRAndPayroll")">Add Designation</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("AddEmployee", "HRAndPayroll")">Add Employee</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("EmployeeList", "HRAndPayroll")">Employee List</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("EmployeeProfile", "HRAndPayroll")">Employee Profile</a>
+                                        </li>
+                                        @*<li>
+                                            <a href="@Url.Action("EmployeeAttendance", "HRAndPayroll")">Employee Attendance</a>
+                                        </li>*@
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">Payroll<span class="fa arrow"></span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        @*<li>
+                            <a href="@Url.Action("Login", "Login")"><i class="fa fa-pencil-square fa-fw"></i> Examinations & Result</a>
+                        </li>
+
+                       
+                        <li>
+                            <a href="@Url.Action("Login", "Login")"><i class="fa fa-book fa-fw"></i> Library</a>
+                            
+                            
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Login", "Login")"><i class="fa fa-graduation-cap fa-fw"></i> Admission</a>
+                        </li>*@
+                       
+                         <li>
+                             <a href="#"><i class="fa fa-bus fa-fw"></i> Transport<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="@Url.Action("AddDriver", "Transport")">Add Driver</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("AddVehicle", "Transport")">Add Vehicle</a>
+                                </li>
+                                
+                                
+                                <li>
+                                    <a href="@Url.Action("AddRoute", "Transport")">Add Route</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("AddDestination", "Transport")">Add Destination</a>
+                                </li>
+                                @*<li>
+                                    <a href="@Url.Action("UserDestinationAllocation", "Transport")">Destination Allocation</a>
+                                </li>*@
+                                <li>
+                                    <a href="@Url.Action("AssignVehicle", "Transport")">Assign Vehicle</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("BusSchedule", "Transport")">Bus Schedule</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        @*<li>
+                            <a href="@Url.Action("Login", "Login")"><i class="fa fa-calendar-check-o fa-fw"></i>   Events</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Login", "Login")"><i class="fa fa-usd fa-fw"></i> Fee</a>
+
+
+                        </li>*@
+                        
+                       
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+        <div id="page-wrapper">
+           
+            @RenderBody()
+            
+            </div>
+            <!-- /.row -->
+
+        <!-- /#page-wrapper -->
+        @*<footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>*@
+
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    
+        
+        <hr />
+<footer>
+    <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+</footer>
+    
+    
+        <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/SD/vendor/jquery/jquery.js"></script>
+   
+    <script src="~/SD/vendor/bootstrap/js/bootstrap.js"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+   
+    <script src="~/SD/vendor/metisMenu/metisMenu.js"></script>
+    <!-- Morris Charts JavaScript -->
+   
+    <script src="~/SD/vendor/raphael/raphael.js"></script>
+  
+   
+    <script src="~/SD/data/morris-data.js"></script>
+    <script src="~/SD/vendor/morrisjs/morris.js"></script>
+    <!-- Custom Theme JavaScript -->
+
+    <script src="~/SD/dist/js/sb-admin-2.js"></script>
+    
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

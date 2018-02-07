@@ -1,0 +1,189 @@
+﻿@using EducationalInstitutionERPApp.Models.AcademicModels
+@using EducationalInstitutionERPApp.Models.TimeTableModels
+
+@model EducationalInstitutionERPApp.Models.TimeTableModels.TimeTableVM
+@{
+    ViewBag.Title = "ViewTimeTable";
+    List<TimeTableVM> timeTableVms = ViewBag.TimeTables;
+    
+}
+
+@section style
+{
+
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
+    <style>
+        .field-validation-error {
+            font-style: italic;
+            color: red;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <br>
+
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="icon-home2 position-left"></i>Home</a></li>
+            <li><a href="#">TimeTable</a></li>
+            <li class="active">Show TimeTable</li>
+        </ul>
+
+        <h1 class="page-header">Show TimeTable</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>TimeTable Detailes</h4>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", id = "ViewTimeTableForm" }))
+                {
+                    <fieldset>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="DepartmentId">Department</label>
+                            <div class="col-sm-6">
+                                <select id="DepartmentId" name="DepartmentId" class="form-control">
+                                    <option value="">Select</option>
+
+                                    @foreach (Department department in ViewBag.Departments)
+                                    {
+                                        <option value="@department.Id">@department.DepartmentName</option>
+                                    }
+
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="SemesterId">Semester</label>
+                            <div class="col-sm-6">
+                                <select id="SemesterId" name="SemesterId" class="form-control">
+                                    <option value="">Select</option>
+
+                                    @foreach (Semester semester in ViewBag.Semesters)
+                                    {
+                                        <option value="@semester.Id">@semester.SemesterName</option>
+                                    }
+
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="Day">Day</label>
+                            <div class="col-sm-6">
+                                <select id="Day" name="Day" class="form-control">
+                                    <option value="">Select</option>
+                                    <option value="Sat">Saturday</option>
+                                    <option value="Sun">Sunday</option>
+                                    <option value="Mon">Monday</option>
+                                    <option value="Tue">Tuesday</option>
+                                    <option value="Wed">Wednesday</option>
+                                    <option value="Thu">‎Thursday</option>
+                                    <option value="Fri">Friay</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="ToTime"></label>
+                            <div class="col-sm-6">
+                                <button type="submit" class="btn btn-md btn-primary">Show</button>
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+                }
+                
+                
+            </div>
+        </div>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+
+        <div class="col-sm-12">
+
+           
+            <div class="table-responsive table-bordered" id="item-grid">
+                <table id="example" class="display" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>SL No.</th>
+                            <th>CourseCode </th>
+
+                            <th>Course</th>
+                            <th>Room No</th>
+                            <th>Building</th>
+                            <th>Time</th>
+
+                            <th>Manage</th>
+
+                        </tr>
+                    </thead>
+                   @if (timeTableVms != null)
+                   {
+                       <tbody>
+                        @{ int rowNo = 0; }
+                        @foreach (TimeTableVM timeTable in timeTableVms)
+                        {
+                            rowNo++;
+                            <tr>
+                                <td width="5%">@rowNo</td>
+
+                                <td width="8%">@timeTable.CourseCode</td>
+                                <td width="5%">@timeTable.CourseName</td>
+                                <td width="10%">@timeTable.RoomNo</td>
+                                <td width="10%">@timeTable.BuildingName</td>
+                                <td width="10%">@timeTable.Time</td>
+
+
+                                <td width="10%"><a class="glyphicon glyphicon-pencil" title="" href="#"><img src="" alt=""/></a> <a class="glyphicon glyphicon-eye-open" title="" href="#"><img src="" alt=""/></a> <a class="glyphicon glyphicon-trash" title="" href=""><img src="" alt=""/></a></td>
+                            </tr>
+                        }
+
+
+
+                        </tbody>
+                   }
+                        
+                    
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    @section Scripts {
+        <script src="~/Scripts/jquery-1.10.2.js"></script>
+
+        <script src="~/Scripts/jquery.validate.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+        <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+        <script src="~/Scripts/DataTables/dataTables.jqueryui.js"></script>
+        <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#example').DataTable();
+            });
+        </script>
+        
+    
+
+    }

@@ -1,0 +1,276 @@
+﻿@using EducationalInstitutionERPApp.Models.TransportModels
+@model EducationalInstitutionERPApp.Models.TransportModels.AssignVehicleVM
+@{
+    ViewBag.Title = "AssignVehicle";
+    List<AssignVehicleVM> assignVehicles = ViewBag.AssignedVehicles; 
+}
+@section style
+{
+<link href="~/Content/bootstrap-clockpicker.css" rel="stylesheet" />
+<link href="~/Content/jquery-clockpicker.css" rel="stylesheet" />
+
+    <link href="~/Content/DataTables/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
+    <style>
+        .field-validation-error {
+            font-style: italic;
+            color: red;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <br>
+
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="icon-home2 position-left"></i>Home</a></li>
+            <li><a href="#">Transport</a></li>
+            <li class="active">Assign Vehicle</li>
+        </ul>
+
+        <h1 class="page-header">Assign Vehicle</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Transport Allocation Detailes</h4>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", id = "AssignVehicleForm" }))
+                {
+                    <fieldset>
+
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.VehicleTypeId, new { @class = "col-md-4 control-label" })
+                            
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(x => x.VehicleTypeId, new SelectList(ViewBag.VehicleTypes, "Value", "Text"), new { @class = "form-control input-md", id = "VehicleTypeId", onchange = "" })
+                                @Html.ValidationMessageFor(m => m.VehicleTypeId)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="VehicleId">Vehicle No</label>
+                            <div class="col-md-6">
+                                
+                                <select id="VehicleId" name="VehicleId" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.RouteId, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(x => x.RouteId, new SelectList(ViewBag.Routes, "Value", "Text"), new { @class = "form-control input-md" })
+                                @Html.ValidationMessageFor(m => m.RouteId)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.UserType, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(x => x.UserType, new SelectList(ViewBag.Users, "Text", "Text"), new { @class = "form-control input-md" })
+                                @Html.ValidationMessageFor(m => m.UserType)
+                            </div>
+                        </div>
+
+                        
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="StartTime">Start Time</label>
+                            <div class="col-sm-6">
+                                <div id="StartTime" class="from-control input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+                                    <input type="text" id="StartTime" name="StartTime" class="form-control" value="10:00"> (Time formate: 24hours)
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Change this to a button or input when using this as a form -->
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Save"></label>
+                            <div class="col-md-6">
+                                <input type="submit" value="Assign" class="btn btn-primary" />
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+                }
+                <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-4 ">
+                        @if (ViewBag.Message != null)
+                        {
+                            if (ViewBag.Message == "Vehicle assigned suucessfully!!")
+                            {
+                                <h4><span class="label label-success">@ViewBag.Message</span></h4>
+                            }
+                            else
+                            {
+                                <h4><span class="label label-danger">@ViewBag.Message</span></h4>
+                            }
+
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class=" breadcrumb">
+                <h4>List of Allocated Transport</h4>
+            </div>
+
+            <div class="table-responsive table-bordered" id="item-grid">
+                <table id="example" class="display" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>SL No.</th>
+                            <th>Start Time</th>
+                            <th>Route</th>
+                            <th>Vehicle No</th>
+                            <th>User Type</th>
+                            <th>Manage</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+
+                        
+
+                            @{int rowNo = 0;}
+                            @foreach (AssignVehicleVM assignVehicle in assignVehicles)
+                            {
+                                rowNo++;
+                            <tr>
+                                <td width="5%">@rowNo</td>
+                                <td width="8%">@assignVehicle.StartTime</td>
+                                <td width="10%">@assignVehicle.StartPlace - @assignVehicle.EndPlace</td>
+                                <td width="10%">@assignVehicle.VehicleNo</td>
+
+                                <td width="10%">@assignVehicle.UserType</td>
+                                <td width="10%">
+                                 
+                                    <a class="glyphicon glyphicon-trash" title="delete" alt="" onclick='DeleteAssigned(@assignVehicle.Id)' ></a>
+                                </td>
+                            </tr>
+                            }
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+@section Scripts {
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.jqueryui.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/bootstrap-clockpicker.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script src="~/Scripts/jquery-clockpicker.js"></script>
+<script type="text/javascript">
+    $('.clockpicker').clockpicker();
+</script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            //this line fires no matter what
+            $("#StudentFormGroup").hide();
+            $("#TeacherFormGroup").hide();
+            $("#StaffFormGroup").hide();
+            $("#SelectType").change(function() {
+                var value = document.getElementById("SelectType").value;
+                if (value == "1") {
+                    $("#StudentFormGroup").show("highlight", { color: "#7FAAFF" }, 1000);
+                } else if (value == "2") {
+                    $("#TeacherFormGroup").show("highlight", { color: "#7FAAFF" }, 1000);
+                } else if (value == "3") {
+                    $("#StaffFormGroup").show("highlight", { color: "#7FAAFF" }, 1000);
+                } else {
+                    $("#StudentFormGroup").hide();
+                    $("#TeacherFormGroup").hide();
+                    $("#StaffFormGroup").hide();
+                }
+            });
+            $('#StartTime').clockpicker();
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#VehicleTypeId").change(function() {
+                var vehicleTypeId = $("#VehicleTypeId").val();
+                $("#VehicleId").empty();
+
+                $("#VehicleId").append('<option value="">Select</option>');
+
+                var json = { id: vehicleTypeId };
+                $.ajax({
+                    type: "POST",
+                    url: '/Transport/GetVehicleById',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function(data) {
+                        $.each(data, function(key, value) {
+                            $("#VehicleId").append('<option value="' + value.Id + '">' + value.VehicleNo + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+<script>
+    function DeleteAssigned(vid) {
+        if (confirm("Do you want to delete assignment: " + vid)) {
+            var data = { 'Id': vid }
+            $.post('/Transport/DeleteAssigned', data,
+            function (data) {
+                if (data == true)
+                    location = location.href;
+                else
+                    alert("Could not delete");
+            });
+        }
+    }
+</script>
+
+    @*<script>
+        
+        jQuery(function ($) {
+            $("#AssignVehicleForm").validate({
+                rules: {
+                    StartTime: "required"
+                },
+                messages: {
+
+                    StartTime: "Please enter start time"
+                }
+            });
+        });
+    </script>*@
+}

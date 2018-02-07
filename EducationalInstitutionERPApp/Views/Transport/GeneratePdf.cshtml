@@ -1,0 +1,130 @@
+﻿@using EducationalInstitutionERPApp.Models.TransportModels
+
+
+@{
+    Layout = null;
+    ViewBag.Title = "Transport Schedule";
+    List<AssignVehicleVM> assignVehicles = ViewBag.Schedule;
+    List<AssignVehicleVM> assignVehicles2 = ViewBag.Schedule2;
+   
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ViewResult</title>
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="~/images/IIUC-Logo.gif" style="width:480px;height:39px;">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <h4>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <u>Transport Schedule</u>
+    </h4>
+
+    <h5 style="float: right" id="date"></h5>
+
+<div>
+
+    <br>
+    <br>
+    <p>City to Campus</p>
+    <table id="myTable" class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>SL No.</th>
+            <th>Start Time</th>
+            <th>Route</th>
+            <th>Vehicle No</th>
+            <th>User Type</th>
+           
+
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+
+
+        @{int rowNo = 0;}
+        @foreach (AssignVehicleVM assignVehicle2 in assignVehicles2)
+        {
+            rowNo++;
+            <tr>
+                <td width="5%">@rowNo</td>
+                <td width="15%">@assignVehicle2.StartTime</td>
+                <td width="15%">@assignVehicle2.StartPlace - @assignVehicle2.EndPlace</td>
+                <td width="15%">@assignVehicle2.VehicleNo</td>
+
+                <td width="15%">@assignVehicle2.UserType</td>
+                
+            </tr>
+        }
+
+        </tbody>
+
+    </table>
+</div>
+
+<br>
+    <div>
+
+        <br>
+        <br>
+        <p>Campus to city</p>
+        <table id="myTable" class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>SL No.</th>
+                    <th>Start Time</th>
+                    <th>Route</th>
+                    <th>Vehicle No</th>
+                    <th>User Type</th>
+                    
+
+                </tr>
+            </thead>
+
+            <tbody>
+
+
+
+
+                @{int rowNo2 = 0;}
+                @foreach (AssignVehicleVM assignVehicle in assignVehicles)
+                {
+                    rowNo2++;
+                    <tr>
+                        <td width="5%">@rowNo2</td>
+                        <td width="15%">@assignVehicle.StartTime</td>
+                        <td width="15%">@assignVehicle.StartPlace - @assignVehicle.EndPlace</td>
+                        <td width="15%">@assignVehicle.VehicleNo</td>
+
+                        <td width="15%">@assignVehicle.UserType</td>
+                        
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+<script>
+        n = new Date();
+        y = n.getFullYear();
+        m = n.getMonth() + 1;
+        d = n.getDate();
+        document.getElementById("date").innerHTML = "Date: " + m + "/" + d + "/" + y;
+    </script>
+</body>
+</html>

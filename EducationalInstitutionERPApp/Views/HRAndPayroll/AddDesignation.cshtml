@@ -1,0 +1,175 @@
+﻿@using EducationalInstitutionERPApp.Models.HRAndPayrollModels
+@model EducationalInstitutionERPApp.Models.HRAndPayrollModels.Designation
+
+@{
+    ViewBag.Title = "AddDesignation";
+    List<Designation> designations = ViewBag.Designations;
+}
+
+
+
+@section style
+{
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
+    <style>
+        .field-validation-error {
+            font-style: italic;
+            color: red;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <br>
+
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home position-left"></i>Home</a></li>
+            <li><a href="#">HR/Payroll</a></li>
+            <li class="active">Add Designation</li>
+        </ul>
+
+        <h1 class="page-header">Add Designation</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Designation Detailes</h4>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", id = "AddDesignationForm" }))
+                {
+                    <fieldset>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.DesignationName, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.DesignationName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.DesignationName)
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="save"></label>
+                            <div class="col-md-6">
+                                <input type="submit" value="Save" id="save" class="btn btn-primary" />
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+                }
+                <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-4 ">
+                        @if (ViewBag.Message != null)
+                        {
+                            if (ViewBag.Message == "Designation added suucessfully!!")
+                            {
+                                <h4><span class="label label-success">@ViewBag.Message</span></h4>
+                            }
+                            else
+                            {
+                                <h4><span class="label label-danger">@ViewBag.Message</span></h4>
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.col-lg-12 -->
+
+
+    <div class="col-lg-6">
+
+        <div class=" breadcrumb">
+            <h4>List of Designations</h4>
+        </div>
+
+        <div class="table-responsive table-bordered" id="item-grid">
+            <table id="example" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>SL.</th>
+
+                        <th>Designation</th>
+                        <th>Manage</th>
+
+
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @{int rowNo = 0;}
+                    @foreach (Designation designation in designations)
+                    {
+                        rowNo++;
+                        <tr>
+                            <td width="5%">@rowNo</td>
+                            <td width="8%">@designation.DesignationName</td>
+
+                            <td width="10%">
+                                @*<a title="" href=""><img src="" class="glyphicon glyphicon-pencil" title="image" alt="img" onclick='EditType(@type.Id)' /></a>*@
+                                @Html.Raw("<img src='glyphicon glyphicon-pencil' class='glyphicon glyphicon-pencil' title='' onclick='EditDesignation(" + designation.Id + ")'  />")
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+<div id="DivToAppendPartialVoew"></div>
+
+
+
+
+
+@section Scripts {
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.jqueryui.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+
+    <script>
+        function EditDesignation(did) {
+            var ph = $("#DivToAppendPartialVoew");
+
+            ph.load("/HRAndPayroll/EditDesignation?desigid=" + did, function () {
+                ph.dialog({
+                    modal: true,
+                    width: 500,
+                    height: 438,
+                    title: "Edit Designation",
+                    resizable: false
+                });
+            });
+        }
+
+    </script>
+
+}

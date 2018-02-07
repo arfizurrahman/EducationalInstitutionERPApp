@@ -1,0 +1,213 @@
+﻿@using EducationalInstitutionERPApp.Models.TransportModels
+@model EducationalInstitutionERPApp.Models.TransportModels.Vehicle
+@{
+    ViewBag.Title = "Add Vehicle";
+    List<Vehicle> vehicles = ViewBag.Vehicles;
+}
+@section style
+{
+    
+  <link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    
+    <style>
+        .field-validation-error {
+            font-style: italic;
+            color: red;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <br>
+
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="icon-home2 position-left"></i>Home</a></li>
+            <li><a href="#">Transport</a></li>
+            <li class="active">Add Vehicle</li>
+        </ul>
+
+        <h1 class="page-header">Add Vehicle</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Vehicle Detailes</h4>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", id = "AddVehicleForm" }))
+                {
+                    <fieldset>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.VehicleNo, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.VehicleNo, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.VehicleNo)
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.NoOfSeats, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.NoOfSeats, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.NoOfSeats)
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.VehicleTypeId, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(x => x.VehicleTypeId, new SelectList(ViewBag.VehicleTypes, "Value", "Text"), new { @class = "form-control input-md" })
+                                @Html.ValidationMessageFor(m => m.VehicleTypeId)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.DriverId, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(x => x.DriverId, new SelectList(ViewBag.Drivers, "Value", "Text"), new { @class = "form-control input-md" })
+                                @Html.ValidationMessageFor(m => m.DriverId)
+                            </div>
+                        </div>
+
+
+
+                        <!-- Change this to a button or input when using this as a form -->
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="save"></label>
+                            <div class="col-md-6">
+                                <input type="submit" value="Save" id="save" class="btn btn-primary" />
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+                }
+                <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-4 ">
+                        @if (ViewBag.Message != null)
+                                    {
+                                        if (ViewBag.Message == "Vehicle added suucessfully!!")
+                                        {
+                                            <h4><span class="label label-success">@ViewBag.Message</span></h4>
+                                        }
+                                        else
+                                        {
+                                            <h4><span class="label label-danger">@ViewBag.Message</span></h4>
+                                        }
+
+                                    }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class=" breadcrumb">
+                <h4>List of Vehicles</h4>
+            </div>
+
+            <div class="table-responsive table-bordered" id="item-grid">
+                <table id="example" class="display" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>SL.</th>
+                            <th>Vehicle No.</th>
+                            <th>No of Seats</th>
+                            <th>Vehicle Type</th>
+                            <th>Driver</th>
+                            <th>Manage</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                            @{int rowNo=0;}
+                            @foreach (Vehicle vehicle in vehicles)
+                            {
+                                rowNo++;
+                                <tr>
+                                    <td width="5%">@rowNo</td>
+                                    <td width="8%">@vehicle.VehicleNo</td>
+                                    <td width="10%">@vehicle.NoOfSeats</td>
+                                    <td width="10%">@vehicle.VehicleType</td>
+
+                                    <td width="10%">@vehicle.DriverName</td>
+                                    <td width="10%">
+                                        @*<a class="glyphicon glyphicon-pencil" title="" href="@Url.Action("EditVehicle", "Transport")"><img src="" alt=""/></a>*@
+                                         <a class="glyphicon glyphicon-pencil" title="" href="@Url.Action("EditVehicle", "Transport",new { id = @vehicle.Id})"><img src="" alt=""/></a>
+                                         <a class="glyphicon glyphicon-trash" title="delete" alt="img" onclick='DeleteVehicle(@vehicle.Id)' ></a>
+                                    </td>
+                                </tr>
+                            }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+   
+    
+
+
+
+
+        @section Scripts {
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+
+            <script src="~/Scripts/jquery.validate.js"></script>
+            <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+            <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+            <script src="~/Scripts/DataTables/dataTables.jqueryui.js"></script>
+            <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+            <script>
+                $(document).ready(function() {
+                    $('#example').DataTable();
+                });
+            </script>
+
+            <script>
+                function DeleteVehicle(vid) {
+                    if (confirm("Do you want to delete vehicle: " + vid)) {
+                        var data = { 'Id': vid }
+                        $.post('/Transport/DeleteVehicle', data,
+                            function(data) {
+                                if (data == true)
+                                    location = location.href;
+                                else
+                                    alert("Could not delete");
+                            });
+                    }
+                }
+            </script>
+@*<script>
+    function EditVehicle(vid) {
+        
+            var data = { 'Id': vid }
+            $.post('/Transport/EditVehicleById', data,
+            function (data) {
+                if (data == true)
+                    location = location.href;
+                else
+                    alert("Could not edit");
+            });
+        }
+    
+</script>*@
+
+
+
+        }

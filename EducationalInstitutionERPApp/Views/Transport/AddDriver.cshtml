@@ -1,0 +1,225 @@
+﻿@using EducationalInstitutionERPApp.Models.TransportModels
+@model EducationalInstitutionERPApp.Models.TransportModels.Driver
+@{
+    ViewBag.Title = "Add Driver";
+    List<Driver> drivers = ViewBag.Drivers;
+}
+@section style
+{
+    
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
+<style>
+    .field-validation-error {
+        font-style: italic;
+        color: red;
+    }
+    
+</style>
+
+}
+
+           <div class="row">
+               <div class="col-lg-12">
+                   <br>
+                                           
+                               <ul class="breadcrumb">
+                                   <li><a href="#"><i class="icon-home2 position-left"></i>Home</a></li>
+                                   <li><a href="#">Transport</a></li>
+                                   <li class="active">Add Driver</li>
+                               </ul>
+
+                   <h1 class="page-header">Add Driver</h1>
+               </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4>Driver Detailes</h4>
+                        </div>
+                        <div class="panel-body">
+
+                            @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype="multipart/form-data",@class = "form-horizontal", id = "AddDriverForm" }))
+                            {
+                                <fieldset>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Name, new { @class = "col-md-4 control-label" })
+                                        <div class="col-md-6">
+                                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Name)
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.ContactNo, new {@class = "col-md-4 control-label"})
+                                        <div class="col-md-6 ">
+                                            @Html.TextBoxFor(m => m.ContactNo, new {@class = "form-control input-md"})
+                                            @Html.ValidationMessageFor(m => m.ContactNo)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Address, new { @class = "col-md-4 control-label" })
+                                        <div class="col-md-6">
+                                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Address)
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+
+                                        @Html.LabelFor(m => m.LicenseNo, new {@class = "col-md-4 control-label"})
+                                        <div class="col-md-6 ">
+                                            @Html.TextBoxFor(m => m.LicenseNo, new {@class = "form-control input-md"})
+                                            @Html.ValidationMessageFor(m => m.LicenseNo)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        @Html.LabelFor(m => m.DriverImage, new { @class = "col-md-4 control-label" })
+                                        <div class="col-md-6 ">
+                                            <input type="file" id="DriverImage" name="DriverImage">
+                                            @Html.ValidationMessageFor(m => m.DriverImage)
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Change this to a button or input when using this as a form -->
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="Save"></label>
+                                        <div class="col-md-6">
+                                            <input type="submit" value="Save" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+
+                            }
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"></label>
+                                <div class="col-md-4 ">
+                                    @if (ViewBag.Message != null)
+                                    {
+                                        if (ViewBag.Message == "Driver added successfully!")
+                                        {
+                                              <h4><span id="msglbl" class="label label-success">@ViewBag.Message</span></h4>
+                                        }
+                                        else
+                                        {
+                                                <h4><span class="label label-danger">@ViewBag.Message</span></h4>
+                                        }
+                                        
+                                    }
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <div class=" breadcrumb">
+                            <h4>List of Drivers</h4>
+                        </div>
+
+                        <div class="table-responsive table-bordered" id="item-grid">
+                            <table id="example" class="display" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>SL No.</th>
+                                        <th>Name</th>
+                                        
+                                        <th>Contact No.</th>
+                                        <th>Address</th>
+                                        <th>License No.</th>
+                                       
+                                        
+                                        <th>Manage</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @{int rowNo=0;}
+                                    @foreach (Driver driver in drivers)
+                                    {
+                                        rowNo++;
+                                        <tr>
+                                            <td width="5%">@rowNo</td>
+                                            <td width="5%">@driver.Name</td>
+                                            <td width="8%">@driver.ContactNo</td>
+                                            <td width="10%">@driver.Address</td>
+                                            <td width="10%">@driver.LicenseNo</td>
+                                            
+                                            @*<td>@{
+                                             var base64 = Convert.ToBase64String(driver.DImage);
+                                             var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+                                            }
+                                            <img src='@imgSrc'  alt="img" />
+                                            </td>*@
+
+
+
+
+                                            @*<td width="10%"><a class="glyphicon glyphicon-pencil" title="" href="@Url.Action("ViewTimeTable", "TimeTable", new {id = driver.Id})"></a>
+                                            
+                                                <a title="" href=""><img src="" class="glyphicon glyphicon-pencil" title="edit" onclick='EditDriver(@driver.Id)' /></a>*@
+
+                                            <td><a class="glyphicon glyphicon-trash" title="delete" onclick='DeleteDriver(@driver.Id)'></a></td>
+                                        </tr>
+                                    }
+                                    
+
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+@section Scripts {
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+<script src="~/Scripts/DataTables/dataTables.jqueryui.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        });
+    </script>
+    
+<script>
+    function DeleteDriver(did) {
+        if (confirm("Do you want to delete driver: " + did)) {
+            var data = { 'Id': did }
+            $.post('/Transport/DeleteDriverByDriverId', data,
+            function (data) {
+                if (data == true)
+                    location = location.href;
+                else
+                    alert("Could not delete");
+            });
+        }
+    }
+</script>
+
+
+
+            }

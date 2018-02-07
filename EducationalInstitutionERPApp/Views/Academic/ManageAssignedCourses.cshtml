@@ -1,0 +1,202 @@
+﻿@using EducationalInstitutionERPApp.Models.AcademicModels
+
+@model EducationalInstitutionERPApp.Models.AcademicModels.CourseAssignmentVm
+@{
+    ViewBag.Title = "ManageAssignedCourses";
+    List<CourseAssignmentVm> courses = ViewBag.Courses;
+}
+
+
+
+@section style
+{
+
+
+    <link href="~/Content/DataTables/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
+    <style>
+        .field-validation-error {
+            font-style: italic;
+            color: red;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <br>
+
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home position-left"></i>Home</a></li>
+            <li><a href="#">Student</a></li>
+
+            <li class="active">Manage Assigned Course</li>
+        </ul>
+
+        <h1 class="page-header">Manage Assigned Course</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Assigned course</h4>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", id = "CourseEnrollmentForm", enctype = "multipart/form-data" }))
+                {
+                    <fieldset>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.DepartmentId, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(x => x.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"), new { @class = "form-control input-md" })
+                                @Html.ValidationMessageFor(m => m.DepartmentId)
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Show"></label>
+                            <div class="col-md-6">
+                                <input type="submit" value="Show" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                }
+                
+
+            </div>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+
+
+</div>
+<div class="row">
+    <div class="col-sm-12">
+
+        <div class=" breadcrumb">
+            <h4>List of Allocated Transport</h4>
+        </div>
+       
+            <div class="table-responsive table-bordered" id="item-grid">
+            <table id="example" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Semester</th>
+                        <th>Teacher</th>
+                        <th>Manage</th>
+                        
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                @if (ViewBag.Courses != null)
+{
+                
+                foreach (CourseAssignmentVm course in courses)
+                {
+                   
+                    <tr>
+                        
+                        <td width="5%">@course.CourseCode</td>
+                        <td width="8%">@course.CourseName</td>
+                        <td width="10%">@course.SemesterName</td>
+                        <td width="10%">@course.TeacherName</td>
+
+                        @*<td>
+                                @{
+                                    var base64 = Convert.ToBase64String(driver.DImage);
+                        var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+                            }
+                            <img src='@imgSrc' alt="img" />
+                        </td>*@
+
+
+                        <td><a class="glyphicon glyphicon-trash" title="delete" onclick='DeleteAssignedCourse(@course.Id)'></a></td>
+
+                    </tr>
+                }
+
+}
+
+                </tbody>
+
+
+
+            </table>
+        </div>
+       
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+        @section Scripts {
+
+            <script src="~/Scripts/jquery-1.10.2.js"></script>
+            <script src="~/Scripts/jquery.validate.js"></script>
+            <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+            <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+            <script src="~/Scripts/DataTables/dataTables.jqueryui.js"></script>
+            <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+
+            <script>
+                $(document).ready(function() {
+                    $('#example').DataTable();
+                });
+            </script>
+
+            <script>
+    function DeleteAssignedCourse(cid) {
+        if (confirm("Do you want to delete: " + cid)) {
+            var data = { 'Id': cid }
+            $.post('/Academic/DeleteCourseByAssignedCourseId', data,
+            function (data) {
+                if (data == true)
+                    location = location.href;
+                else
+                    alert("Could not delete");
+            });
+        }
+    }
+</script>
+   @*<script>
+        $(document).ready(function () {
+            $("#example").hide();
+            $("#DepartmentId").change(function () {
+                var deptId = $("#DepartmentId").val();
+                $("#example").show();
+                $("#tableBody").empty();
+                var json = { id: deptId };
+                $.ajax({
+                    type: "POST",
+                    url: '/Academic/GetCoursesByDepartmentId',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+
+                        $.each(data, function (key, value) {
+
+
+                            $("#tableBody").append('<tr><td>' + value.CourseCode + '</td><td>' + value.CourseName + '</td><td>' + value.SemesterName + '</td><td>' + value.TeacherName + '</td></tr>');
+
+                        });
+                    }
+                });
+            });
+        });
+    </script>*@
+        }

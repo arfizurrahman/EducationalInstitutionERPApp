@@ -1,0 +1,234 @@
+﻿@using EducationalInstitutionERPApp.Models.StudentModels
+@model EducationalInstitutionERPApp.Models.StudentModels.CourseEnrollmentVm
+@{
+    ViewBag.Title = "EnrollInACourse";
+}
+
+@section style
+{
+
+
+    <link href="~/Content/DataTables/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
+    <style>
+        .field-validation-error {
+            font-style: italic;
+            color: red;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <br>
+
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home position-left"></i>Home</a></li>
+            <li><a href="#">Student</a></li>
+
+            <li class="active">Enroll in a Course</li>
+        </ul>
+
+        <h1 class="page-header">Enroll in a Course</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Enrollment Detailes</h4>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", id = "CourseEnrollmentForm", enctype = "multipart/form-data" }))
+                {
+                    <fieldset>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.DepartmentId, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(x => x.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"), new { @class = "form-control input-md" })
+                                @Html.ValidationMessageFor(m => m.DepartmentId)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.StudentId, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                <select id="StudentId" name="StudentId" class="form-control" onchange=""></select>
+                                @Html.ValidationMessageFor(x => x.StudentId)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Name, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Name)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Email)
+                            </div>
+
+                        </div>
+                       
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.CourseId, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @*@Html.DropDownListFor(x => x.CourseId, new SelectList(ViewBag.Courses, "Value", "Text"), new { @class = "form-control input-md" })*@
+                                <select id="CourseId" name="CourseId" class="form-control" onchange=""></select>
+                                @Html.ValidationMessageFor(x => x.CourseId)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Date, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.Date, new { @class = "form-control", id = "datepicker2" })
+                                @Html.ValidationMessageFor(m => m.Date)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Save"></label>
+                            <div class="col-md-6">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </div>
+
+
+
+                    </fieldset>
+
+                }
+                <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-4 ">
+                        @if (ViewBag.Message != null)
+                        {
+                            if (ViewBag.Message == "Course enrolled suucessfully!!")
+                            {
+                                <h4><span class="label label-success">@ViewBag.Message</span></h4>
+                            }
+                            else
+                            {
+                                <h4><span class="label label-danger">@ViewBag.Message</span></h4>
+                            }
+
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+
+
+</div>
+
+
+
+
+@section Scripts {
+
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+    <script src="~/Scripts/DataTables/dataTables.jqueryui.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker({
+                dateFormat: 'dd-mm-yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1960:2030'
+            });
+        });
+    </script>
+
+    <script>
+        $(function() {
+            $("#datepicker2").datepicker({
+                dateFormat: 'dd-mm-yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1960:2030'
+            });
+        });
+    </script>
+
+<script>
+    $(document).ready(function () {
+        $("#DepartmentId").change(function () {
+            var deptId = $("#DepartmentId").val();
+            $("#StudentId").empty();
+            $("#CourseId").empty();
+
+            $("#CourseId").append('<option value="">Select</option>');
+            $("#StudentId").append('<option value="">Select</option>');
+
+            var json = { id: deptId };
+            $.ajax({
+                type: "POST",
+                url: '/Student/GetCourseEnrollmentInfoByDepartmentId',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    $.each(data.Students, function (key, value) {
+                        $("#StudentId").append('<option value="' + value.Id + '">' + value.RegNo + '</option>');
+                    });
+                    $.each(data.Courses, function (key, value) {
+                        $("#CourseId").append('<option value="' + value.Id + '">' + value.Code + '</option>');
+
+                    });
+
+                }
+            });
+        });
+
+        $("#StudentId").change(function () {
+            var cId = $("#StudentId").val();
+            $("#Name").empty();
+            $("#Email").empty();
+            var json = { id: cId };
+            $.ajax({
+                type: "POST",
+                url: '/Student/GetStudentInfoById',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    $("#Name").val(data.Name);
+                    $("#Email").val(data.Email);
+                }
+            });
+        });
+        
+
+    });
+</script>
+}
+
+
+
+
+
+

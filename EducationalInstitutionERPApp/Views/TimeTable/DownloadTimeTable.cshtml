@@ -1,0 +1,125 @@
+﻿
+
+@using EducationalInstitutionERPApp.Models.AcademicModels
+@using EducationalInstitutionERPApp.Models.TimeTableModels
+
+@model EducationalInstitutionERPApp.Models.TimeTableModels.TimeTableVM
+@{
+    ViewBag.Title = "DownloadTimeTable";
+    List<TimeTableVM> timeTableVms = ViewBag.TimeTables;
+
+}
+
+@section style
+{
+
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
+    <style>
+        .field-validation-error {
+            font-style: italic;
+            color: red;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <br>
+
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="icon-home2 position-left"></i>Home</a></li>
+            <li><a href="#">TimeTable</a></li>
+            <li class="active">Download TimeTable</li>
+        </ul>
+
+        <h1 class="page-header">Download TimeTable</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>TimeTable Detailes</h4>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", id = "ViewTimeTableForm" }))
+                {
+                    <fieldset>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="DepartmentId">Department</label>
+                            <div class="col-sm-6">
+                                <select id="DepartmentId" name="DepartmentId" class="form-control">
+                                    <option value="">Select</option>
+
+                                    @foreach (Department department in ViewBag.Departments)
+                                    {
+                                        <option value="@department.Id">@department.DepartmentName</option>
+                                    }
+
+
+                                </select>
+                            </div>
+                        </div>
+                        @*<div class="form-group">
+                            <label class="control-label col-sm-4" for="SemesterId">Semester</label>
+                            <div class="col-sm-6">
+                                <select id="SemesterId" name="SemesterId" class="form-control">
+                                    <option value="">Select</option>
+
+                                    @foreach (Semester semester in ViewBag.Semesters)
+                                    {
+                                        <option value="@semester.Id">@semester.SemesterName</option>
+                                    }
+
+
+                                </select>
+                            </div>
+                        </div>*@
+                        
+
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for=""></label>
+                            <div class="col-sm-6">
+                                <button type="submit" class="btn btn-md btn-primary">Download Pdf</button>
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+                }
+
+
+            </div>
+        </div>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+
+
+
+
+@section Scripts {
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.jqueryui.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+
+
+
+}
+

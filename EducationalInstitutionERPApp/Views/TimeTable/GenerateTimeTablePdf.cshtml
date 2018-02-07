@@ -1,0 +1,124 @@
+﻿@using EducationalInstitutionERPApp.Models.TimeTableModels
+@using EducationalInstitutionERPApp.Models.AcademicModels
+
+@{
+    ViewBag.Title = "GenerateTimeTablePdf";
+    Layout = null;
+    List<TimeTableVM> days = ViewBag.Days;
+    List<DepartmentScheduleVm> DeptSchedules = ViewBag.DepartmentShceduls;
+    List<TimeTableVM> schedules = ViewBag.TimeTables;
+    List<Semester> semesters = ViewBag.Semesters;
+    
+   
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GenerateTimeTablePdf</title>
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="~/images/IIUC-Logo.gif" style="width:480px;height:39px;">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <h4>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <u>Class Schedule</u>
+    </h4>
+
+    <h5 style="float: right" id="date"></h5>
+
+    <div>
+
+        
+      
+        <table id="myTable" class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    
+                    
+                    
+                </tr>
+
+            </thead>
+            <tbody id="tableBody">
+            
+                @foreach (DepartmentScheduleVm departmentSchedule in DeptSchedules)
+                {
+                    <tr><td></td><td><b>@departmentSchedule.Semester Semester</b></td></tr>
+                        <tr>
+                            
+                            <td>Day</td>
+                            <td> <tr>
+                    <td></td>
+                    <td>Course-Code  -  Room No  -  Building  -  Time</td>
+                    
+                </tr>
+                            
+
+                                @foreach (TimeTableVM day in days)
+                                {
+                                   
+                                    <tr>
+                                        <td>@day.Day</td>
+                                        <td>
+                                            <table>
+                                                <thead>
+                                                
+                                                
+                                                </thead>
+                                                <tbody>
+                                                @foreach (TimeTableVM time in departmentSchedule.DeptTimeTables)
+                                                {
+                                                    if (time.Semester == departmentSchedule.Semester)
+                                                    {
+                                                        if (time.Day == day.Day)
+                                                    {
+                                                        foreach (Schedule s in time.Schedules)
+                                                        {
+                                                            <tr>
+                                                                <td>@s.CourseCode</td>
+                                                                <td>@s.RoomNo</td>
+                                                                <td>@s.BuildingName</td>
+                                                                <td>@s.Time</td>
+
+                                                            </tr>
+                                                        }
+                                                    }
+                                                    }
+                                                    
+
+
+                                                }
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                }
+                            </td></tr>
+                    
+                }
+            
+            
+
+            </tbody>
+        </table>
+    </div>
+    <script>
+        n = new Date();
+        y = n.getFullYear();
+        m = n.getMonth() + 1;
+        d = n.getDate();
+        document.getElementById("date").innerHTML = "Date: " + m + "/" + d + "/" + y;
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,226 @@
+﻿@using EducationalInstitutionERPApp.Models.TimeTableModels
+@model EducationalInstitutionERPApp.Models.TimeTableModels.ClassRoom
+
+@{
+    ViewBag.Title = "Add Class Room";
+    List<ClassRoom> classRooms = ViewBag.Classrooms;
+}
+
+@section style
+{
+
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
+    <style>
+        .field-validation-error {
+            font-style: italic;
+            color: red;
+        }
+    </style>
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <br>
+
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="icon-home2 position-left"></i>Home</a></li>
+            <li><a href="#">Time Table</a></li>
+            <li class="active">Add Classroom</li>
+        </ul>
+
+        <h1 class="page-header">Add ClassRoom</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Room Detailes</h4>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", id = "AddRoomForm" }))
+                {
+                    <fieldset>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.RoomNo, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.RoomNo, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.RoomNo)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.CategoryId, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(x => x.CategoryId, new SelectList(ViewBag.Categories, "Value", "Text"), new { @class = "form-control input-md" })
+                                @Html.ValidationMessageFor(m => m.CategoryId)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.BuildingId, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(x => x.BuildingId, new SelectList(ViewBag.Buildings, "Value", "Text"), new { @class = "form-control input-md" })
+                                @Html.ValidationMessageFor(m => m.BuildingId)
+                            </div>
+                        </div>
+                        
+
+
+
+                        <!-- Change this to a button or input when using this as a form -->
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Save"></label>
+                            <div class="col-md-6">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </div>
+                  </fieldset>
+
+                }
+                <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-4 ">
+                        @if (ViewBag.Message != null)
+                        {
+                            if (ViewBag.Message == "Classroom added successfully!")
+                            {
+                                <h4><span class="label label-success">@ViewBag.Message</span></h4>
+                            }
+                            else
+                            {
+                                <h4><span class="label label-danger">@ViewBag.Message</span></h4>
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+       
+                <div class="col-sm-6">
+
+                    <div class=" breadcrumb">
+                        <h4>List of Classroom</h4>
+                    </div>
+                    <div class=" breadcrumb">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", id = "viewRoomList" }))
+                        {
+
+                            <div class="form-group">
+
+                                <label class="col-md-4 control-label" for="buildingId">Select Building</label>
+                                <div class="col-md-4">
+                                    <select class="form-control" name="buildingId" id="buildingId">
+                                        <option value="">--Select--</option>
+                                        @foreach (var building in ViewBag.Building)
+                                        {
+                                            <option value="@building.Id">@building.BuildingName</option>
+                                        }
+                                    </select>
+
+
+
+                                </div>
+
+                            </div>
+                        }
+                        </div>
+                        <div class="table-responsive table-bordered" id="item-grid">
+                            <table id="example" class="display" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        @*<th>SL No.</th>*@
+                                        <th>Room No</th>
+
+                                        <th>Category</th>
+                                        
+
+                                    </tr>
+                                </thead>
+
+                                <tbody id="tableBody">
+                                    @*@{int rowNo = 0;}
+    @foreach (ClassRoom classRoom in classRooms)
+    {
+        rowNo++;
+        <tr>
+            <td width="5%">@rowNo</td>
+            <td width="5%">@classRoom.RoomNo</td>
+            <td width="8%">@classRoom.Category</td>
+            <td width="10%">@classRoom.Address</td>
+            <td width="10%">@classRoom.LicenseNo</td>
+
+
+            <td width="10%"><a class="glyphicon glyphicon-pencil" title="" href="#"><img src="" alt="" /></a> <a class="glyphicon glyphicon-eye-open" title="" href="#"><img src="" alt="" /></a> <a class="glyphicon glyphicon-trash" title="" href=""><img src="" alt="" /></a></td>
+        </tr>
+    }*@
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+      
+
+
+
+
+@section Scripts {
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.jqueryui.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        });
+    </script>
+<script>
+    $(document).ready(function () {
+        $("#example").hide();
+        $("#buildingId").change(function () {
+            var buildingId = $("#buildingId").val();
+            $("#example").show();
+            $("#tableBody").empty();
+            var json = { id: buildingId };
+            $.ajax({
+                type: "POST",
+                url: '/TimeTable/GetAllRoomsByBuildingId',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    $.each(data, function (key, value) {
+
+
+                        $("#tableBody").append('<tr><td>' + value.RoomNo + '</td><td>' + value.Category + '</td></tr>');
+
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+
+
+}
+

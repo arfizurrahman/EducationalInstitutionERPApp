@@ -1,0 +1,289 @@
+﻿@using EducationalInstitutionERPApp.Models.AcademicModels
+@model EducationalInstitutionERPApp.Models.AcademicModels.CourseAssignmentVm
+@{
+    ViewBag.Title = "AssignCourseToTeacher";
+}
+
+@section style
+{
+
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
+    <style>
+        .field-validation-error {
+            font-style: italic;
+            color: red;
+        }
+    </style>
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <br>
+
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="icon-home2 position-left"></i>Home</a></li>
+            <li><a href="#">Academic</a></li>
+            <li class="active">Assign Course</li>
+        </ul>
+
+        <h1 class="page-header">Assign Course</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Course Detailes</h4>
+                </div>
+                <div class="panel-body">
+
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", id = "AssignCourseForm" }))
+                    {
+                        <fieldset>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.DepartmentId, new { @class = "col-md-4 control-label" })
+                                <div class="col-md-6">
+                                    @Html.DropDownListFor(x => x.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"), new { @class = "form-control input-md" })
+                                    @Html.ValidationMessageFor(m => m.DepartmentId)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.TeacherId, new { @class = "col-md-4 control-label" })
+                                <div class="col-md-6">
+                                    @*@Html.DropDownListFor(x => x.TeacherId, null, new {@class = "form-control input-md"})*@
+                                    <select id="TeacherId" name="TeacherId" class="form-control" onchange=""></select>
+                                    @Html.ValidationMessageFor(x => x.TeacherId)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.CreditTaken, new { @class = "col-md-4 control-label" })
+                                <div class="col-md-6 ">
+                                    @Html.TextBoxFor(m => m.CreditTaken, new { @class = "form-control input-md", @readonly = true })
+                                    @Html.ValidationMessageFor(m => m.CreditTaken)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.CourseId, new { @class = "col-md-4 control-label" })
+                                <div class="col-md-6">
+                                    @*@Html.DropDownListFor(x => x.CourseId,null, new {@class = "form-control input-md"})*@
+                                    <select id="CourseId" name="CourseId" class="form-control" onchange=""></select>
+                                    @Html.ValidationMessageFor(x => x.CourseId)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.CourseName, new { @class = "col-md-4 control-label" })
+                                <div class="col-md-6 ">
+                                    @Html.TextBoxFor(m => m.CourseName, new { @class = "form-control input-md", @readonly = true })
+                                    @Html.ValidationMessageFor(m => m.CourseName)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.CourseCredit, new { @class = "col-md-4 control-label" })
+                                <div class="col-md-6 ">
+                                    @Html.TextBoxFor(m => m.CourseCredit, new { @class = "form-control input-md", @readonly = true })
+                                    @Html.ValidationMessageFor(m => m.CourseCredit)
+                                </div>
+                            </div>
+
+
+
+                            <!-- Change this to a button or input when using this as a form -->
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="Save"></label>
+                                <div class="col-md-6">
+                                    <input type="submit" value="Save" class="btn btn-primary" />
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+                    }
+                    <div class="form-group">
+                        <label class="col-md-4 control-label"></label>
+                        <div class="col-md-4 ">
+                            @if (ViewBag.Message != null)
+                            {
+                                if (ViewBag.Message == "Course assigned successfully")
+                                {
+                                    <h4><span class="label label-success">@ViewBag.Message</span></h4>
+                                }
+                                else
+                                {
+                                    <h4><span class="label label-danger">@ViewBag.Message</span></h4>
+                                }
+
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+
+                @*<div class=" breadcrumb">
+                        <h4>List of Courses</h4>
+                    </div>*@
+
+                @*<div class="table-responsive table-bordered" id="item-grid">
+                        <table id="example" class="display" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>SL No.</th>
+                                    <th>Code</th>
+
+                                    <th>Name</th>
+                                    <th>Credit</th>
+                                    <th>Department</th>
+
+                                    <th>Semester</th>
+                                    <th>Manage</th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @{int rowNo = 0;}
+                                @foreach (Course course in courses)
+                                {
+                                    rowNo++;
+                                    <tr>
+                                        <td width="5%">@rowNo</td>
+                                        <td width="5%">@course.Code</td>
+                                        <td width="8%">@course.CourseName</td>
+                                        <td width="10%">@course.Credit</td>
+                                        <td width="10%">@course.Department</td>
+                                        <td width="10%">@course.Semester</td>
+
+
+                                        <td width="10%"><a class="glyphicon glyphicon-pencil" title="" href="#"><img src="" alt="" /></a> <a class="glyphicon glyphicon-eye-open" title="" href="#"><img src="" alt="" /></a> <a class="glyphicon glyphicon-trash" title="" href=""><img src="" alt="" /></a></td>
+                                    </tr>
+                                }
+
+
+
+                            </tbody>
+                        </table>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+
+
+
+
+@section Scripts {
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.jqueryui.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        });
+    </script>
+<script>
+
+    $(document).ready(function () {
+        $("#DepartmentId").change(function () {
+            var deptId = $("#DepartmentId").val();
+            $("#CourseId").empty();
+            $("#TeacherId").empty();
+            $("#TeacherId").append('<option value="">Select</option>');
+            $("#CourseId").append('<option value="">Select</option>');
+            
+            var json = { id: deptId };
+            $.ajax({
+                type: "POST",
+                url: '/Academic/GetTeacherCourseByDepartmentId',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    $.each(data.Employees, function (key, value) {
+                        $("#TeacherId").append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                    });
+                    $.each(data.Courses, function (key, value) {
+                        $("#CourseId").append('<option value="' + value.Id + '">' + value.Code + '</option>');
+
+                    });
+
+                }
+            });
+        });
+
+        $("#TeacherId").change(function () {
+            var tId = $("#TeacherId").val();
+            $("#CreditTaken").empty();
+            
+            var json = { id: tId };
+            $.ajax({
+                type: "POST",
+                url: '/Academic/GetTeacherInfoById',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    $("#CreditTaken").val(data.CreditTaken);
+                    
+                }
+            });
+        });
+
+        $("#CourseId").change(function () {
+            var cId = $("#CourseId").val();
+            $("#CourseName").empty();
+            $("#CourseCredit").empty();
+            var json = { id: cId };
+            $.ajax({
+                type: "POST",
+                url: '/Academic/GetCourseInfoById',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    $("#CourseName").val(data.CourseName);
+                    $("#CourseCredit").val(data.Credit);
+                }
+            });
+        });
+
+       
+
+
+        $("#CourseAssaign").validate({
+            rules: {
+                DepartmentId: "required",
+                CourseId: "required",
+                Id: "required"
+
+            },
+            messages: {
+                DepartmentId: "Please select department",
+                CourseId: "Please select any Course",
+                Id: "Please select Teacher"
+            }
+        });
+
+    });
+</script>
+
+
+
+}
+
+
+
+
